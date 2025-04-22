@@ -1,0 +1,1 @@
+type LayerAlias = str | int
