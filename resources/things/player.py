@@ -15,6 +15,8 @@ class Player(Thing):
 
         self.firing_cooldown = 10
 
+        self.team = 1
+
     def handle_events(self, events):
         pressed = pygame.key.get_pressed()
 
@@ -36,7 +38,7 @@ class Player(Thing):
         if pressed[keys.K_SPACE]:
             if self.firing_cooldown == 0:
                 self.firing_cooldown = 10
-                self.bullet_manager.shoot(self.rect.center)
+                self.bullet_manager.shoot(self.rect.center, self.team)
     
     def update(self):
         if self.firing_cooldown > 0:

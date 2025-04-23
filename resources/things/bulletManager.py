@@ -10,8 +10,8 @@ class BulletManager(Thing):
         )
         self.bullets = []
 
-    def shoot(self, pos):
-        bullet = director.create_thing("Bullet", Rect(*pos, 10, 5), (20, 0), 600)
+    def shoot(self, pos, team=0):
+        bullet = director.create_thing("Bullet", Rect(*pos, 10, 5), (20, 0), 600, team)
         self.bullets.append(bullet)
         director.scene.cake.insert(bullet)
 

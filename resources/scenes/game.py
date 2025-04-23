@@ -6,14 +6,18 @@ from resources.things.parallax import Parallax
 
 class GameScene(Scene):
     def init(self):
+        self.player = director.create_thing("Player")
         self.cake.insert(
-            director.create_thing("Player")
+            self.player
         )
 
         self.parallax = Parallax()
         director.state['parallax'] = self.parallax
 
         self.bullet_manager = director.create_thing("BulletManager")
+        self.enemy_manager = director.create_thing("EnemyManager")
+
+        self.enemy_manager.spawn("Enemy", (0, 540))
     
     def handle_events(self, events):
         self.cake.handle_events(events)
@@ -22,6 +26,7 @@ class GameScene(Scene):
         self.cake.update()
         self.parallax.update()
         self.bullet_manager.update()
+        self.enemy_manager.update()
 
     def render(self, surface: Surface):
         surface.fill(colors.gainsboro)

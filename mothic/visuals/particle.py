@@ -33,7 +33,7 @@ class Particle:
     Base particle class
     """
 
-    def __init__(self, pos: (int, int), lifespan: int):
+    def __init__(self, pos: tuple[int, int], lifespan: int):
         self.pos = pos
         self.lifespan = lifespan
         self.age = 0
