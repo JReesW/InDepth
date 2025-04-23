@@ -17,8 +17,9 @@ class GameScene(Scene):
         self.bullet_manager = director.create_thing("BulletManager")
         self.enemy_manager = director.create_thing("EnemyManager")
 
-        self.enemy_manager.spawn("Enemy", (0, 540))
-    
+        self.enemy_manager.spawn("Patrol", (0, 540))
+        self.enemy_manager.spawn("Longshot", (0, 640))
+
     def handle_events(self, events):
         self.cake.handle_events(events)
 

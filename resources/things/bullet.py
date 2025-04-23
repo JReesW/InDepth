@@ -6,7 +6,7 @@ class Bullet(Thing):
         super().__init__(
             rect=rect,
             default_update_layer=1,
-            default_render_layer=9
+            default_render_layer=8
             )
         self.velocity = velocity
         self.lifespan = lifespan
@@ -25,5 +25,5 @@ class Bullet(Thing):
         if (self.team == 1):
             for enemy in director.scene.enemy_manager.enemies:
                 if (self.rect.colliderect(enemy.rect)):
-                    enemy.health -= 20
+                    enemy.health -= 1
                     self.dead = True

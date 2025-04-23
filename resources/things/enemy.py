@@ -1,12 +1,16 @@
 from mothic import Thing, Rect, image as Image
 
+
 class Enemy(Thing):
-    def __init__(self, health = 100, image = None, rect = None, *, default_event_layer = 0, default_update_layer = 2, default_render_layer = 0):
+    def __init__(self, health, damage, score, rect):
         super().__init__(
             rect=rect,
-            default_update_layer=default_update_layer
+            default_update_layer=2,
+            default_render_layer=9
         )
         self.health = health
+        self.damage = damage
+        self.score = score
         self.speed = 5
         self.image = Image.load_image("player")
 
