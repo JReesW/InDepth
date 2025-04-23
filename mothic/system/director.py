@@ -47,7 +47,7 @@ def find_scenes(path: os.PathLike = "resources/scenes"):
 
                 # Check for Scene derived classes, and store them
                 for name, obj in inspect.getmembers(module, inspect.isclass):
-                    if issubclass(obj, Scene) and obj is not Thing:
+                    if issubclass(obj, Scene) and obj is not Scene:
                         __scenes[name] = obj
             except Exception as e:
                 print(f"Error loading Scene from {module_name}: {e}")
@@ -72,7 +72,7 @@ def find_things(path: os.PathLike = "resources/things"):
 
                 # Check for Scene derived classes, and store them
                 for name, obj in inspect.getmembers(module, inspect.isclass):
-                    if issubclass(obj, Thing) and obj is not Scene:
+                    if issubclass(obj, Thing) and obj is not Thing:
                         __things[name] = obj
             except Exception as e:
                 print(f"Error loading Thing from {module_name}: {e}")
