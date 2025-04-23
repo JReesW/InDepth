@@ -1,15 +1,21 @@
-from mothic import Rect, Surface
+from mothic import Rect, Surface, Thing
 
-class Bullet():
-    def __init__(self, rect : Rect, velocity, lifespan, surface):
-        self.rect = rect
+
+class Bullet(Thing):
+    def __init__(self, rect : Rect, velocity, lifespan):
+        super().__init__(
+            rect=rect,
+            default_update_layer=1,
+            default_render_layer=9
+            )
         self.velocity = velocity
         self.lifespan = lifespan
-        self.alive = True
-        self.surface = surface
+        self.dead = False
     
     def update(self):
-        pass
-
-    def render(self, surface : Surface):
-        surface.blit(self.surface, self.rect)
+        self.lifespan -= 1
+        if (self.lifespan < 0):
+            self.dead = True
+        
+        self.rect.left += self.velocity[0]
+        self.rect.top += self.velocity[1]

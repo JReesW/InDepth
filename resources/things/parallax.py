@@ -38,10 +38,6 @@ class Parallax:
         w, h = surface.get_size()
         ls = [int((5 - n - 1 - round(self.depth, 2)) % 5) for n in range(5)]
 
-        surf, rect = text.render(str(ls), colors.black, 'arial', 14)
-        rect.topleft = (20, 40)
-        surface.blit(surf, rect)
-
         for _i in range(5):
             # i = int((5 - _i - 1 - self.depth) % 5)
             i = ls[_i]

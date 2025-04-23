@@ -50,7 +50,7 @@ class _CakeComponent:
 
         # Raise error if the cake doesn't contain the given thing
         if id(thing) not in self._things:
-            raise CakeError("Can't remove a thing from a cake it isn't in")
+            return
 
         # Remove the thing from the layer it is in and the thing register
         layer = self._things[id(thing)]
@@ -153,6 +153,11 @@ class Cake:
         self._updater.insert(thing, update_layer)
         self._renderer.insert(thing, render_layer)
         self._event_handler.insert(thing, event_layer)
+
+    def remove(self, thing: Thing):
+        self._event_handler.remove(thing)
+        self._updater.remove(thing)
+        self._renderer.remove(thing)
     
     def handle_events(self, events):
         for layer in self._event_handler._layer_order:

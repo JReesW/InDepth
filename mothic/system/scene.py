@@ -85,6 +85,12 @@ class Scene:
         self.camera = Camera((0, 0), (0, 0))
         self.cake = Cake()
 
+    def init(self, *args, **kwargs):
+        """
+        Initalize the state of the Scene
+        """
+        pass
+
     def __handle_events(self, events):
         """
         Base version of handle_events, not meant to be reimplemented

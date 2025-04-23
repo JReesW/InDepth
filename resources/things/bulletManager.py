@@ -1,22 +1,22 @@
-from mothic import Thing, image, Rect
-from resources.things.bullet import Bullet
+from mothic import Thing, image, Rect, director
+from mothic.util.functions import split
 
-class BulletManager():
+
+class BulletManager(Thing):
     def __init__(self):
-        self.bullets : list[Bullet] = []
+        super().__init__(
+            rect=Rect(0, 0, 0, 0),
+            default_update_layer=2
+        )
+        self.bullets = []
+
+    def shoot(self, pos):
+        bullet = director.create_thing("Bullet", Rect(*pos, 10, 5), (20, 0), 600)
+        self.bullets.append(bullet)
+        director.scene.cake.insert(bullet)
 
     def update(self):
-        deadBullets = []
-        for bulletIndex in range(len(self.bullets)):
-            bullet = self.bullets[bulletIndex]
-            bullet.update()
-            if (not bullet.alive):
-                deadBullets.append(bulletIndex)
-        for bulletIndex in deadBullets:
-            self.bullets.pop(bulletIndex)
-    
-    def render(self, surface):
-        for bullet in self.bullets:
-            bullet.render(surface)
+        dead, self.bullets = split(self.bullets, lambda b: b.dead)
 
-bulletManager = BulletManager()
+        for d in dead:
+            director.scene.cake.remove(d)

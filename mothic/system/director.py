@@ -24,7 +24,8 @@ def set_scene(_scene: str, *args, **kwargs) -> None:
     Set the current scene to the given scene
     """
     global scene
-    scene = __scenes[_scene](*args, **kwargs)
+    scene = __scenes[_scene]()
+    scene.init(*args, **kwargs)
 
 
 def find_scenes(path: os.PathLike = "resources/scenes"):
