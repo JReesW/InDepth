@@ -1,6 +1,7 @@
 import pygame
 
 from mothic.system.scene import Scene
+from mothic.system.things import Thing
 from mothic.maths.numbers import remap
 
 import os
@@ -11,6 +12,7 @@ from pathlib import Path
 
 scene = None
 __scenes = {}
+__things = {}
 
 # For now a dict, but should probably become something more sophisticated
 state = {}
@@ -37,17 +39,46 @@ def find_scenes(path: os.PathLike = "resources/scenes"):
         if file.endswith('.py') and not file.startswith('__'):
             module_name = f".{file[:-3]}"
             relative_path = str(path).replace('/', '.')
-            
+
             try:
                 # Import the scene file
                 module = importlib.import_module(module_name, package=relative_path)
 
                 # Check for Scene derived classes, and store them
                 for name, obj in inspect.getmembers(module, inspect.isclass):
-                    if issubclass(obj, Scene) and obj is not Scene:
+                    if issubclass(obj, Scene) and obj is not Thing:
                         __scenes[name] = obj
             except Exception as e:
-                print(f"Error loading scene from {module_name}: {e}")
+                print(f"Error loading Scene from {module_name}: {e}")
+
+
+def find_things(path: os.PathLike = "resources/things"):
+    """
+    Automatically loads all scene classes found in the scenes folder
+    """
+    module_path = Path(path)
+
+    # Check every file in the scenes module
+    for file in os.listdir(module_path):
+        # If it's a python file that isn't marked as protected
+        if file.endswith('.py') and not file.startswith('__'):
+            module_name = f".{file[:-3]}"
+            relative_path = str(path).replace('/', '.')
+
+            try:
+                # Import the scene file
+                module = importlib.import_module(module_name, package=relative_path)
+
+                # Check for Scene derived classes, and store them
+                for name, obj in inspect.getmembers(module, inspect.isclass):
+                    if issubclass(obj, Thing) and obj is not Scene:
+                        __things[name] = obj
+            except Exception as e:
+                print(f"Error loading Thing from {module_name}: {e}")
+
+
+def create_thing(name: str, *args, **kwargs) -> Thing:
+    return __things[name](*args, **kwargs)
 
 
 def screen_to_surf(coords: tuple[int, int]) -> tuple[int, int]:

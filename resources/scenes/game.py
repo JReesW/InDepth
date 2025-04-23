@@ -2,7 +2,6 @@ from mothic import Scene, Surface, colors, director
 from mothic.visuals import text
 
 from resources.things.bulletManager import bulletManager
-from resources.things.player import Player
 from resources.things.parallax import Parallax
 
 
@@ -11,7 +10,7 @@ class GameScene(Scene):
         super().__init__(**kwargs)
 
         self.cake.insert(
-            Player()
+            director.create_thing("Player")
         )
 
         self.parallax = Parallax()

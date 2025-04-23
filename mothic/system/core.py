@@ -21,6 +21,7 @@ class Game:
                  starting_scene_kwargs: dict = None, 
                  caption="A Mothic Game",
                  scenes_folder="resources/scenes",
+                 things_folder="resources/things",
                  surface_size=None,
                  screen_size=(1920, 1080),
                  display_flags=pygame.RESIZABLE,
@@ -55,6 +56,7 @@ class Game:
 
         find_fonts()
         director.find_scenes(scenes_folder)
+        director.find_things(things_folder)
         starting_scene_args = [] if starting_scene_args is None else starting_scene_args
         starting_scene_kwargs = {} if starting_scene_kwargs is None else starting_scene_kwargs
         director.set_scene(starting_scene, *starting_scene_args, **starting_scene_kwargs)
