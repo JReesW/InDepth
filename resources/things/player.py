@@ -8,6 +8,12 @@ class Player(Thing):
             default_render_layer=10
         )
 
+        self.maxLives = 3
+        self.lives = self.maxLives
+        self.maxHealth = 100
+        #self.health = self.maxHealth
+        self.health = 50
+
         self.image = image.load_image("player")
 
         self.bullet_manager = director.create_thing("BulletManager")
@@ -34,6 +40,10 @@ class Player(Thing):
             parallax.depth = parallax.depth + 0.01
         if pressed[keys.K_f]:
             parallax.depth = parallax.depth - 0.01
+        if pressed[keys.K_k]:
+            self.health += 0.5
+            if (self.health > self.maxHealth):
+                self.health = self.maxHealth 
 
         if pressed[keys.K_SPACE]:
             if self.firing_cooldown == 0:

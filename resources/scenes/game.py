@@ -6,10 +6,15 @@ from resources.things.parallax import Parallax
 
 class GameScene(Scene):
     def init(self):
+        self.score = 0
+
         self.player = director.create_thing("Player")
         self.cake.insert(
             self.player
         )
+
+        self.player_ui = director.create_thing("UI")
+        self.cake.insert(self.player_ui)
 
         self.parallax = Parallax()
         director.state['parallax'] = self.parallax
