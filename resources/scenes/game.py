@@ -6,7 +6,6 @@ from resources.things.parallax import Parallax
 
 class GameScene(Scene):
     def init(self):
-        self.score = 0
 
         self.player = director.create_thing("Player")
         self.cake.insert(

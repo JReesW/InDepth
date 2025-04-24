@@ -10,11 +10,11 @@ class Player(Thing):
 
         self.maxLives = 3
         self.lives = self.maxLives
-        self.maxHealth = 100
-        #self.health = self.maxHealth
-        self.health = 50
+        self.maxHealth = 10
+        self.health = self.maxHealth
 
-        self.image = image.load_image("player")
+        self.image = image.load_image("testplayer")
+        self.rect.size = self.image.get_rect().size
 
         self.bullet_manager = director.create_thing("BulletManager")
         director.scene.cake.insert(self.bullet_manager)
@@ -41,6 +41,8 @@ class Player(Thing):
         if pressed[keys.K_f]:
             parallax.depth = parallax.depth - 0.01
         if pressed[keys.K_k]:
+            self.health -= 0.5
+        if pressed[keys.K_l]:
             self.health += 0.5
             if (self.health > self.maxHealth):
                 self.health = self.maxHealth 
