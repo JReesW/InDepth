@@ -1,4 +1,4 @@
-from mothic import Thing, Rect, director, keys, image
+from mothic import Thing, Rect, director, keys, image, etypes
 import pygame
 
 class Player(Thing):
@@ -10,7 +10,7 @@ class Player(Thing):
 
         self.maxLives = 3
         self.lives = self.maxLives
-        self.maxHealth = 10
+        self.maxHealth = 15
         self.health = self.maxHealth
 
         self.image = image.load_image("testplayer")
@@ -40,12 +40,13 @@ class Player(Thing):
             parallax.depth = parallax.depth + 0.01
         if pressed[keys.K_f]:
             parallax.depth = parallax.depth - 0.01
-        if pressed[keys.K_k]:
-            self.health -= 0.5
-        if pressed[keys.K_l]:
-            self.health += 0.5
-            if (self.health > self.maxHealth):
-                self.health = self.maxHealth 
+
+        for event in events:
+            if event.type == etypes.KEYDOWN:
+                if event.key == keys.K_k:
+                    self.health -= 1
+                if event.key == keys.K_l:
+                    self.health = min(self.health + 1, self.maxHealth)
 
         if pressed[keys.K_SPACE]:
             if self.firing_cooldown == 0:

@@ -34,7 +34,7 @@ class GameScene(Scene):
         self.enemy_manager.update()
 
     def render(self, surface: Surface):
-        surface.fill(colors.gainsboro)
+        surface.fill((150, 150, 150))
 
         self.parallax.render(surface)
 

@@ -1,13 +1,14 @@
-from mothic import Thing, Rect, director, colors, Surface, draw
+from mothic import Thing, Rect, director, colors, Surface, draw, image
 from mothic.visuals import text
 import pygame
 
+
 class UI(Thing):
-    def __init__(self, image = None, rect = None, *, default_event_layer = 0, default_update_layer = 9999, default_render_layer = 9999):
+    def __init__(self):
         super().__init__(
-            rect=Rect(0, 0, 1920, 108),
-            default_update_layer=default_update_layer,
-            default_render_layer=default_render_layer
+            rect=Rect(0, 0, 1920, 140),
+            default_update_layer=9999,
+            default_render_layer=9999
         )
 
         self.lastLives = None
@@ -16,7 +17,10 @@ class UI(Thing):
         self.livesRect = Rect(1920 - 190, 20, 170, 48)
         self.livesAlpha = 255
 
-        self.healthRect = Rect(20, 20, 200, 48)
+        self.healthRect = Rect(30, 30, 616, 104)
+        self.health_cover = image.load_image("healthbarcover")
+        self.health_back = image.load_image("healthbarbackside")
+        self.health_segment = image.load_image("healthbarsegment")
         self.healthAlpha = 255
 
         self.image.fill(colors.transparent)
@@ -60,31 +64,18 @@ class UI(Thing):
     def drawHealth(self):
         player = director.scene.player
 
-        rect = self.healthRect
-        surface = Surface(rect.size, pygame.SRCALPHA)
+        surface = Surface(self.healthRect.size, pygame.SRCALPHA)
         surface.set_alpha(self.healthAlpha)
-        surface.fill(colors.transparent)
 
-        lineWidth = 5
-        linePadding = lineWidth / 2
+        surface.blit(self.health_back, (0, 0))
 
-        #horizontal border
-        draw.line(surface, colors.black, (0, 0 + linePadding), (rect.width, 0 + linePadding), lineWidth)
-        draw.line(surface, colors.black, (0, rect.height - linePadding), (rect.width, rect.height - linePadding), lineWidth)
-        #vertical border
-        draw.line(surface, colors.black, (0 + linePadding, 0), (0 + linePadding, rect.height), lineWidth)
-        draw.line(surface, colors.black, (rect.width - linePadding, 0), (rect.width - linePadding, rect.height), lineWidth)
+        for n in range(player.health):
+            surface.blit(self.health_segment, (164 + 28 * n, 34))
 
-        #a bunch of extra math to make sure your health isnt overlapping the border nor ever hidden by the border, depending on if you draw lines first or not
-        healthMaxWidth = rect.width - lineWidth * 2
-        hpRect = Rect(lineWidth, lineWidth, healthMaxWidth * (player.health / player.maxHealth), rect.height - lineWidth * 2)
+        surface.blit(self.health_cover, (0, 0))
 
-        surface.fill(colors.red, hpRect)
-
-        #draw.line(surface, colors.black, (healthMaxWidth / 2 + hpRect.left - 1, hpRect.top), (healthMaxWidth / 2 + hpRect.left - 1, hpRect.top + hpRect.height / 2), lineWidth)
-
-        self.image.fill(colors.transparent, rect)
-        self.image.blit(surface, rect)
+        self.image.fill(colors.transparent, self.healthRect)
+        self.image.blit(surface, self.healthRect.topleft)
 
     def update(self):
         player = director.scene.player
