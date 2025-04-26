@@ -1,4 +1,4 @@
-from mothic import Rect
+from mothic import Rect, image
 from resources.things.enemy import Enemy
 
 
@@ -10,6 +10,8 @@ class Patrol(Enemy):
             score=50,
             rect=Rect(*pos, 100, 100)
         )
+        self.image = image.load_image("patrol")
+        self.rect.size = self.image.get_rect().size
 
 
 class Satellite(Enemy):
@@ -30,6 +32,8 @@ class Kamikaze(Enemy):
             score=150,
             rect=Rect(*pos, 100, 100)
         )
+        self.image = image.load_image("kamikaze_w")
+        self.rect.size = self.image.get_rect().size
 
 
 class Longshot(Enemy):
@@ -40,6 +44,8 @@ class Longshot(Enemy):
             score=400,
             rect=Rect(*pos, 100, 100)
         )
+        self.image = image.load_image("longshot")
+        self.rect.size = self.image.get_rect().size
 
 
 class Scute(Enemy):
