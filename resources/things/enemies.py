@@ -22,6 +22,9 @@ class Satellite(Enemy):
             score=250,
             rect=Rect(*pos, 100, 100)
         )
+        self.image = image.load_image("satellite_wings_1")
+        self.rect.size = self.image.get_rect().size
+
 
 
 class Kamikaze(Enemy):
