@@ -8,19 +8,16 @@ class Player(Thing):
             default_render_layer=10
         )
 
-        self.maxLives = 3
-        self.lives = self.maxLives
+        self.lives = 3
         self.maxHealth = 15
         self.health = self.maxHealth
 
         self.image = image.load_image("testplayer")
         self.rect.size = self.image.get_rect().size
 
-        self.bullet_manager = director.create_thing("BulletManager")
-        director.scene.cake.insert(self.bullet_manager)
-
         self.firing_cooldown = 10
 
+        self.damage = 1
         self.team = 1
 
     def handle_events(self, events):
@@ -42,7 +39,7 @@ class Player(Thing):
             parallax.depth = parallax.depth - 0.01
 
         for event in events:
-            if event.type == etypes.KEYDOWN:
+            if event.type == etypes.KEYUP:
                 if event.key == keys.K_k:
                     self.health -= 1
                 if event.key == keys.K_l:
@@ -51,7 +48,7 @@ class Player(Thing):
         if pressed[keys.K_SPACE]:
             if self.firing_cooldown == 0:
                 self.firing_cooldown = 10
-                self.bullet_manager.shoot(self.rect.center, self.team)
+                director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), (20, 0), 600, self.team, self.damage)
     
     def update(self):
         if self.firing_cooldown > 0:

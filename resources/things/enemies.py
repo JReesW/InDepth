@@ -1,4 +1,4 @@
-from mothic import Rect, image
+from mothic import Rect, image, director
 from resources.things.enemy import Enemy
 
 
@@ -12,7 +12,19 @@ class Patrol(Enemy):
         )
         self.image = image.load_image("patrol")
         self.rect.size = self.image.get_rect().size
+        self.attackTimer = 0
+    
+    def update(self):
+        self.attackTimer += 1
+        if (self.attackTimer > 60):
+            director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), (-20, 0), 600, self.team, self.damage)
+            self.attackTimer = 0
 
+        if self.rect.left <= 0:
+            self.speed = 5
+        elif self.rect.left >= 1920:
+            self.speed = -5
+        self.rect.left += self.speed
 
 class Satellite(Enemy):
     def __init__(self, pos):
@@ -24,8 +36,19 @@ class Satellite(Enemy):
         )
         self.image = image.load_image("satellite_wings_1")
         self.rect.size = self.image.get_rect().size
+        self.attackTimer = 0
 
+    def update(self):
+        self.attackTimer += 1
+        if (self.attackTimer > 60):
+            director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), (-20, 0), 600, self.team, self.damage)
+            self.attackTimer = 0
 
+        if self.rect.left <= 0:
+            self.speed = 5
+        elif self.rect.left >= 1920:
+            self.speed = -5
+        self.rect.left += self.speed
 
 class Kamikaze(Enemy):
     def __init__(self, pos):

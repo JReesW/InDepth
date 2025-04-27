@@ -12,6 +12,7 @@ class Enemy(Thing):
         self.damage = damage
         self.score = score
         self.speed = 5
+        self.team = 2
         self.image = Image.load_image("player")
 
     def update(self):
