@@ -21,10 +21,17 @@ class GameScene(Scene):
         self.bullet_manager = director.create_thing("BulletManager")
         self.enemy_manager = director.create_thing("EnemyManager")
 
-        self.enemy_manager.spawn("Patrol", (0, 340))
-        self.enemy_manager.spawn("Satellite", (0, 640))
-        self.enemy_manager.spawn("Longshot", (0, 440))
-        self.enemy_manager.spawn("Kamikaze", (0, 540))
+        self.enemy_manager.spawn("Patrol", (1700, 540), 0, 0)
+        self.enemy_manager.spawn("Patrol", (1700, 540), 0, 20)
+        self.enemy_manager.spawn("Patrol", (1700, 540), 0, 40)
+        self.enemy_manager.spawn("Patrol", (1700, 540), 0, 60)
+        self.enemy_manager.spawn("Patrol", (1700, 540), 0, 80)
+        self.enemy_manager.spawn("Patrol", (1700, 540), 0, 100)
+        self.enemy_manager.spawn("Patrol", (1700, 540), 0, 120)
+        self.enemy_manager.spawn("Patrol", (1700, 540), 0, 140)
+        # self.enemy_manager.spawn("Satellite", (0, 640))
+        # self.enemy_manager.spawn("Longshot", (0, 440))
+        # self.enemy_manager.spawn("Kamikaze", (0, 540))
 
     def handle_events(self, events):
         self.cake.handle_events(events)
@@ -36,7 +43,7 @@ class GameScene(Scene):
         self.enemy_manager.update()
 
     def render(self, surface: Surface):
-        surface.fill((150, 150, 150))
+        surface.fill((100, 100, 100))
 
         self.parallax.render(surface)
 

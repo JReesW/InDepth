@@ -1,17 +1,32 @@
-from mothic import Rect, image
+from mothic import Rect, image, debug
 from resources.things.enemy import Enemy
+from scripts import DrawnInOrder
+from scripts.lissajous import lissajous
 
 
-class Patrol(Enemy):
-    def __init__(self, pos):
-        super().__init__(
+class Patrol(Enemy, DrawnInOrder):
+    def __init__(self, pos, depth, tick):
+        Enemy.__init__(self,
             health=5,
             damage=1,
             score=50,
             rect=Rect(*pos, 100, 100)
         )
+        DrawnInOrder.__init__(self, depth)
         self.image = image.load_image("patrol")
         self.rect.size = self.image.get_rect().size
+        self.anchor = pos
+
+        self.tick = tick
+
+    def update(self):
+        Enemy.update(self)
+
+        debug.debug('enemy depth', f"{self.depth:.2f}")
+        debug.debug('enemy app. depth', f"{self.apparent_depth:.2f}")
+
+        self.rect.center = lissajous(self.anchor, 100, 400, 2, 3, self.tick, 600)
+        self.tick = (self.tick + 1) % 600
 
 
 class Satellite(Enemy):

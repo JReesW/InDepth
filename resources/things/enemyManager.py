@@ -9,8 +9,8 @@ class EnemyManager(Thing):
         )
         self.enemies = []
 
-    def spawn(self, enemyType: str, pos):
-        enemy = director.create_thing(enemyType, pos)
+    def spawn(self, enemyType: str, *args):
+        enemy = director.create_thing(enemyType, *args)
         self.enemies.append(enemy)
         director.scene.cake.insert(enemy)
 

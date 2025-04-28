@@ -1,12 +1,15 @@
-from mothic import Thing, Rect, director, keys, image, etypes
+from mothic import Thing, Rect, director, keys, image, etypes, debug
 import pygame
+from scripts import DrawnInOrder
 
-class Player(Thing):
+
+class Player(Thing, DrawnInOrder):
     def __init__(self):
-        super().__init__(
+        Thing.__init__(self,
             rect=Rect(250, 250, 50, 50),
             default_render_layer=10
         )
+        DrawnInOrder.__init__(self, 1)
 
         self.maxLives = 3
         self.lives = self.maxLives
@@ -34,12 +37,11 @@ class Player(Thing):
             self.rect.left -= 5
         if pressed[keys.K_d]:
             self.rect.left += 5
-        
-        parallax = director.state['parallax']
+
         if pressed[keys.K_r]:
-            parallax.depth = parallax.depth + 0.01
+            self.depth += 0.01
         if pressed[keys.K_f]:
-            parallax.depth = parallax.depth - 0.01
+            self.depth -= 0.01
 
         for event in events:
             if event.type == etypes.KEYDOWN:
@@ -54,5 +56,7 @@ class Player(Thing):
                 self.bullet_manager.shoot(self.rect.center, self.team)
     
     def update(self):
+        debug.debug('player depth', f"{self.depth:.2f}")
+        debug.debug('player app. depth', f"{self.apparent_depth:.2f}")
         if self.firing_cooldown > 0:
             self.firing_cooldown -= 1
