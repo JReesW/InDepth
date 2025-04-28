@@ -30,18 +30,18 @@ class Player(Thing, DrawnInOrder):
         pressed = pygame.key.get_pressed()
 
         if pressed[keys.K_w]:
-            self.rect.top -= 5
+            self.rect.top -= 10
         if pressed[keys.K_s]:
-            self.rect.top += 5
+            self.rect.top += 10
         if pressed[keys.K_a]:
-            self.rect.left -= 5
+            self.rect.left -= 10
         if pressed[keys.K_d]:
-            self.rect.left += 5
+            self.rect.left += 10
 
         if pressed[keys.K_r]:
-            self.depth += 0.01
+            self.depth += 0.03
         if pressed[keys.K_f]:
-            self.depth -= 0.01
+            self.depth -= 0.03
 
         for event in events:
             if event.type == etypes.KEYDOWN:
@@ -53,7 +53,7 @@ class Player(Thing, DrawnInOrder):
         if pressed[keys.K_SPACE]:
             if self.firing_cooldown == 0:
                 self.firing_cooldown = 10
-                self.bullet_manager.shoot(self.rect.center, self.team)
+                self.bullet_manager.shoot(self.rect.center, self.apparent_depth, self.team)
     
     def update(self):
         debug.debug('player depth', f"{self.depth:.2f}")

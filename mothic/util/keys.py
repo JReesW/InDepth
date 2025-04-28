@@ -133,3 +133,4 @@ from pygame.locals import \
     K_POWER,\
     K_EURO,\
     K_AC_BACK
+from pygame.key import get_pressed

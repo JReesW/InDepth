@@ -1,13 +1,16 @@
 from mothic import Rect, Surface, Thing, director
 
+from scripts.draw_order import DrawnInOrder
 
-class Bullet(Thing):
-    def __init__(self, rect : Rect, velocity, lifespan, team=0):
-        super().__init__(
-            rect=rect,
-            default_update_layer=1,
-            default_render_layer=8
-            )
+
+class Bullet(Thing, DrawnInOrder):
+    def __init__(self, rect : Rect, velocity, lifespan, depth, team=0):
+        Thing.__init__(self,
+                       rect=rect,
+                       default_update_layer=1,
+                       default_render_layer=8
+                       )
+        DrawnInOrder.__init__(self, depth)
         self.velocity = velocity
         self.lifespan = lifespan
         self.dead = False

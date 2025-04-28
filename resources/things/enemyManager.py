@@ -1,6 +1,9 @@
 from mothic import Thing, Rect, director
 from mothic.util.functions import split
 
+from scripts.draw_order import remove_thing
+
+
 class EnemyManager(Thing):
     def __init__(self, image = None, rect = None, *, default_event_layer = 0, default_update_layer = 2, default_render_layer = 10):
         super().__init__(
@@ -19,3 +22,4 @@ class EnemyManager(Thing):
 
         for d in dead:
             director.scene.cake.remove(d)
+            remove_thing(d)
