@@ -12,8 +12,8 @@ class BulletManager(Thing):
         )
         self.bullets = []
 
-    def shoot(self, pos, depth, team=0):
-        bullet = director.create_thing("Bullet", Rect(*pos, 10, 5), (20, 0), 600, depth, team)
+    def shoot(self, rect, velocity, lifetime = 600, depth, team = 0, damage = 1):
+        bullet = director.create_thing("Bullet", rect, velocity, lifetime, depth, team, damage)
         self.bullets.append(bullet)
         director.scene.cake.insert(bullet)
 

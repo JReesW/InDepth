@@ -19,6 +19,7 @@ class Enemy(Thing, DrawnInOrder):
         self.score = score
         self.speed = 5
         self.base_image = None
+        self.team = 2
 
     def update(self):
         self.image = transform.scale_by(self.base_image, scale_factor(self.apparent_depth))
