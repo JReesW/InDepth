@@ -1,7 +1,6 @@
 from mothic import Scene, Surface, colors, director, etypes, draw, keys
 from mothic.visuals import text
 
-from resources.things.parallax import Parallax
 from scripts.draw_order import get_order, reorder
 
 
@@ -14,9 +13,8 @@ class GameScene(Scene):
 
         self.player_ui = director.create_thing("UI")
         self.cake.insert(self.player_ui)
-
-        self.parallax = Parallax()
-        director.state['parallax'] = self.parallax
+        self.depth_measure = director.create_thing("DepthMeasure")
+        self.cake.insert(self.depth_measure)
 
         self.bullet_manager = director.create_thing("BulletManager")
         self.enemy_manager = director.create_thing("EnemyManager")
@@ -50,7 +48,6 @@ class GameScene(Scene):
 
     def update(self):
         self.cake.update()
-        self.parallax.update()
         self.bullet_manager.update()
         self.enemy_manager.update()
         reorder()
@@ -58,14 +55,10 @@ class GameScene(Scene):
     def render(self, surface: Surface):
         surface.fill((100, 100, 100))
 
-        self.parallax.render(surface)
-
-        surf, rect = text.render(f"depth: {self.parallax.depth:.2f}", colors.black, 'arial', 14)
-        rect.topleft = (20, 20)
-        surface.blit(surf, rect)
-
+        # This instead of rendering the cake
         for thing in get_order():
             surface.blit(thing.image, thing.rect)
 
         surface.blit(self.player_ui.image, self.player_ui.rect)
+        surface.blit(self.depth_measure.image, self.depth_measure.rect)
         # self.cake.render(surface)
