@@ -13,7 +13,7 @@ from mothic.visuals import colors
 if not pygame.freetype.get_init():
     pygame.freetype.init()
 
-font = pygame.freetype.SysFont("Arial", 14)
+font = pygame.freetype.SysFont("Arial", 18)
 
 __debugs = {}
 __active = False

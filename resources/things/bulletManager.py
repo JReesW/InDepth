@@ -1,6 +1,8 @@
 from mothic import Thing, image, Rect, director
 from mothic.util.functions import split
 
+from scripts.draw_order import remove_thing
+
 
 class BulletManager(Thing):
     def __init__(self):
@@ -10,8 +12,8 @@ class BulletManager(Thing):
         )
         self.bullets = []
 
-    def shoot(self, rect, velocity, lifetime = 600, team = 0, damage = 1):
-        bullet = director.create_thing("Bullet", rect, velocity, lifetime, team, damage)
+    def shoot(self, rect, velocity, lifetime = 600, depth, team = 0, damage = 1):
+        bullet = director.create_thing("Bullet", rect, velocity, lifetime, depth, team, damage)
         self.bullets.append(bullet)
         director.scene.cake.insert(bullet)
 
@@ -20,3 +22,4 @@ class BulletManager(Thing):
 
         for d in dead:
             director.scene.cake.remove(d)
+            remove_thing(d)

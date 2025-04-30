@@ -5,6 +5,7 @@ import pygame.freetype
 
 from mothic.system import director, debug
 from mothic.visuals.text import find_fonts
+from mothic.util import etypes, keys
 from mothic.util.functions import convert_mouse_click_events
 from mothic.util.exceptions import Quit
 
@@ -72,6 +73,8 @@ class Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == etypes.KEYDOWN and event.key == keys.K_BACKQUOTE:
+                debug.disable() if debug.is_active() else debug.enable()
 
         if not self.__equal_surface_screen_size:
             convert_mouse_click_events(events, director.settings['screen_size'], director.settings["surface_size"])
