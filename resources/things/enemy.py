@@ -20,6 +20,7 @@ class Enemy(Thing, DrawnInOrder):
         self.speed = 5
         self.base_image = None
         self.team = 2
+        self.shielded = False
 
     def update(self):
         self.image = transform.scale_by(self.base_image, scale_factor(self.apparent_depth))
