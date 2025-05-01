@@ -24,10 +24,10 @@ class Patrol(Enemy):
     def update(self):
         Enemy.update(self)
 
-        self.attackTimer += 1
-        if (self.attackTimer > 60):
-            director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), (-20, 0), 600, self.apparent_depth, self.team, self.damage)
-            self.attackTimer = 0
+        # self.attackTimer += 1
+        # if (self.attackTimer > 60):
+        #     director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), (-20, 0), 600, self.apparent_depth, self.team, self.damage)
+        #     self.attackTimer = 0
             
         # self.pos = lissajous(self.anchor, 100, 400, 2, 3, self.tick, 600)
         # self.tick = (self.tick + 1) % 600

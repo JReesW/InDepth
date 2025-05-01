@@ -1,4 +1,4 @@
-from mothic import Rect, Surface, Thing, director
+from mothic import Rect, Thing, director
 
 from scripts.draw_order import DrawnInOrder
 
@@ -28,7 +28,7 @@ class Bullet(Thing, DrawnInOrder):
 
         if (self.team == 1):
             for enemy in director.scene.enemy_manager.enemies:
-                if (self.rect.colliderect(enemy.rect)):
+                if (self.rect.colliderect(enemy.rect) and enemy.collide_depth(self.apparent_depth)):
                     enemy.health -= self.damage
                     self.dead = True
         

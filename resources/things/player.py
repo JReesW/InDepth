@@ -50,7 +50,7 @@ class Player(Thing, DrawnInOrder):
         if pressed[keys.K_SPACE]:
             if self.firing_cooldown == 0:
                 self.firing_cooldown = 10
-                director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), (20, 0), 600, self.apparent_depth, self.team, self.damage)
+                director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), (20, 0), 600, self.depth, self.team, self.damage)
     
     def update(self):
         debug.debug('player depth', f"{self.depth:.2f}")

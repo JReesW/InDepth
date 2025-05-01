@@ -31,8 +31,9 @@ class DrawnInOrder:
     The apparent depth is their depth in the repeating space, and their drawing order (descending).
     """
 
-    def __init__(self, depth: float):
+    def __init__(self, depth: float, d_width: float = 0.75):
         self.depth = depth
+        self.d_width = d_width
 
         add_thing(self)
 
@@ -44,6 +45,20 @@ class DrawnInOrder:
             return 1
 
         return (player.apparent_depth + (self.depth - player.depth)) % 6
+    
+    def collide_depth(self, p_depth):
+        """
+        Return whether a given apparent depth falls between the d_width of this thing
+        """
+        for offset in [-6, 0, 6]:
+            min_edge = self.apparent_depth + offset - self.d_width / 2
+            max_edge = self.apparent_depth + offset + self.d_width / 2
+            if  min_edge < p_depth < max_edge:
+                return True
+        return False
+    
+    # @property  # Disgusting typing for self, I know :)
+    # def apparent_rect(self: Union[Thing, "DrawnInOrder"]) -> Rect:
 
 
 def scale_factor(z) -> float:
