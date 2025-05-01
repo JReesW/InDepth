@@ -21,6 +21,9 @@ class Enemy(Thing, DrawnInOrder):
         self.base_image = None
         self.team = 2
         self.shielded = False
+        self.shield_timer_max = 600
+        self.shield_timer = 0
+        self.shield_radius = 3
 
     def update(self):
         self.image = transform.scale_by(self.base_image, scale_factor(self.apparent_depth))

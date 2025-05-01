@@ -10,11 +10,11 @@ HOLLOW_POINT = 5
 
 images = {
     EXTRA_LIFE:"extralife",
-    HEALTH_KIT:"extralife",
-    SHIELD:"extralife",
-    TRIPLE_SHOT:"extralife",
-    GATLING_GUN:"extralife",
-    HOLLOW_POINT:"extralife",
+    HEALTH_KIT:"heal",
+    SHIELD:"shield",
+    TRIPLE_SHOT:"triple_shot",
+    GATLING_GUN:"gatling_gun",
+    HOLLOW_POINT:"hollow_point",
     }
 
 class Powerup():
@@ -35,8 +35,15 @@ class Powerup():
         if (self.id == EXTRA_LIFE):
             director.scene.player.lives += 1
         if (self.id == HEALTH_KIT):
-            director.scene.player.health += 5
-        
+            director.scene.player.health = min(director.scene.player.health + 5, director.scene.player.maxHealth)
+        if (self.id == SHIELD):
+            director.scene.player.shielded = True
+        if (self.id == TRIPLE_SHOT):
+            director.scene.player.triple_shot = True
+        if (self.id == GATLING_GUN):
+            director.scene.player.gatling_gun = True
+        if (self.id == HOLLOW_POINT):
+            director.scene.player.hollow_point = True
 
     def render(self, surface : Surface):
         surface.blit(self.image, self.rect)

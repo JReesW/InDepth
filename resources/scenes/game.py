@@ -41,7 +41,7 @@ class GameScene(Scene):
         # self.enemy_manager.spawn("Longshot", (0, 440))
         # self.enemy_manager.spawn("Kamikaze", (0, 540))
 
-        self.powerupManager.spawn(HEALTH_KIT, (500, 740))
+        self.powerupManager.spawn(SHIELD, (500, 740))
 
     def handle_events(self, events):
         self.cake.handle_events(events)

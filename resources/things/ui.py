@@ -33,7 +33,7 @@ class UI(Thing):
         surface.set_alpha(self.livesAlpha)
         surface.fill((128, 128, 128, 128))
 
-        playerImage : Surface = player.image
+        playerImage : Surface = player.base_image
         playerImage = pygame.transform.scale(playerImage, (100, 48))
 
         lineWidth = 5
