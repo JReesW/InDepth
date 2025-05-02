@@ -7,7 +7,7 @@ from mothic.system import director, debug
 from mothic.visuals.text import find_fonts
 from mothic.util import etypes, keys
 from mothic.util.functions import convert_mouse_click_events
-from mothic.util.exceptions import Quit
+from mothic.util.exceptions import Quit, SwitchScene
 
 
 class Game:
@@ -60,7 +60,7 @@ class Game:
         director.find_things(things_folder)
         starting_scene_args = [] if starting_scene_args is None else starting_scene_args
         starting_scene_kwargs = {} if starting_scene_kwargs is None else starting_scene_kwargs
-        director.set_scene(starting_scene, *starting_scene_args, **starting_scene_kwargs)
+        director.set_scene(starting_scene, _prevent_raise=True, *starting_scene_args, **starting_scene_kwargs)
 
     def frame(self):
         self.clock.tick(self.fps)
@@ -102,6 +102,9 @@ class Game:
     def start(self):
         try:
             while True:
-                self.frame()
+                try:
+                    self.frame()
+                except SwitchScene:
+                    pass
         except Quit:
             print("Thank you for using Mothic!")

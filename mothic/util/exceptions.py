@@ -20,3 +20,9 @@ class Quit(Exception):
     """
     Raised when the game is quit to stop the game loop
     """
+
+
+class SwitchScene(Exception):
+    """
+    Prevents an old scene from continuing once it has been switched out
+    """

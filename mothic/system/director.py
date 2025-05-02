@@ -3,6 +3,7 @@ import pygame
 from mothic.system.scene import Scene
 from mothic.system.things import Thing
 from mothic.maths.numbers import remap
+from mothic.util.exceptions import SwitchScene
 
 import os
 import importlib
@@ -19,13 +20,15 @@ state = {}
 settings = {}
 
 
-def set_scene(_scene: str, *args, **kwargs) -> None:
+def set_scene(_scene: str, _prevent_raise = False, *args, **kwargs) -> None:
     """
     Set the current scene to the given scene
     """
     global scene
     scene = __scenes[_scene]()
     scene.init(*args, **kwargs)
+    if not _prevent_raise:
+        raise SwitchScene
 
 
 def find_scenes(path: os.PathLike = "resources/scenes"):
