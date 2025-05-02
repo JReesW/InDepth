@@ -1,6 +1,7 @@
-from mothic import Rect, Thing, director
+from mothic import Rect, Thing, director, image
 
 from scripts.draw_order import DrawnInOrder
+from pygame import Vector2, transform
 
 
 class Bullet(Thing, DrawnInOrder):
@@ -17,14 +18,49 @@ class Bullet(Thing, DrawnInOrder):
         # 0 = no team, 1 = from player, 2 = from enemy
         self.team = team
         self.damage = damage
+        if (self.team == 1):
+            self.info_of_bullet()
+        else:
+            self.image = image.load_image("bullet")
+
+        self.x = self.rect.centerx
+        self.y = self.rect.centery
+
+    def info_of_bullet(self):
+        triple = director.scene.player.triple_shot
+        gatling = director.scene.player.gatling_gun
+        hollow = director.scene.player.hollow_point
+
+        image_path = "bullet_"
+        if (triple):
+            image_path += "t"
+        if (gatling):
+            image_path += "g"
+        if (hollow):
+            image_path += "h"
+            self.damage += 1
+        
+        if (image_path[-1] == "_"):
+            image_path = image_path[:-1]
+
+        self.image = image.load_image(image_path)
+        center = self.rect.center
+        self.rect.size = self.image.size
+        self.rect.center = center
+
+        if (triple):
+            vel = Vector2(self.velocity)
+            angle = vel.angle_to(Vector2(1, 0))
+            self.image = transform.rotate(self.image, angle)
     
     def update(self):
         self.lifespan -= 1
         if (self.lifespan < 0):
             self.dead = True
         
-        self.rect.left += self.velocity[0]
-        self.rect.top += self.velocity[1]
+        self.x += self.velocity[0]
+        self.y += self.velocity[1]
+        self.rect.center = (self.x, self.y)
 
         if (self.team == 1):
             for enemy in director.scene.enemy_manager.enemies:

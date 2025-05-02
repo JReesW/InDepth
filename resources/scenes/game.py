@@ -41,7 +41,9 @@ class GameScene(Scene):
         # self.enemy_manager.spawn("Longshot", (0, 440))
         # self.enemy_manager.spawn("Kamikaze", (0, 540))
 
-        self.powerupManager.spawn(SHIELD, (500, 740))
+        self.powerupManager.spawn(TRIPLE_SHOT, (500, 440))
+        self.powerupManager.spawn(GATLING_GUN, (500, 540))
+        self.powerupManager.spawn(HOLLOW_POINT, (500, 640))
 
     def handle_events(self, events):
         self.cake.handle_events(events)
