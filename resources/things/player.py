@@ -12,8 +12,8 @@ class Player(Thing, DrawnInOrder):
         )
         DrawnInOrder.__init__(self, 1)
 
-        self.lives = director.state.setdefault("lives", 1)
-        self.maxHealth = 3
+        self.lives = director.state.setdefault("lives", 3)
+        self.maxHealth = 15
         self.health = self.maxHealth
 
         self.base_image = image.load_image("player")

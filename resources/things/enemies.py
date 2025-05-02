@@ -3,8 +3,6 @@ from resources.things.enemy import Enemy
 from scripts import DrawnInOrder
 from scripts.lissajous import lissajous
 
-a = 1
-
 class Patrol(Enemy):
     def __init__(self, pos, depth, tick):
         Enemy.__init__(self,
