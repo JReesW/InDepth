@@ -34,6 +34,7 @@ class Powerup():
     def apply(self):
         if (self.id == EXTRA_LIFE):
             director.scene.player.lives += 1
+            director.state["lives"] += 1
         if (self.id == HEALTH_KIT):
             director.scene.player.health = min(director.scene.player.health + 5, director.scene.player.maxHealth)
         if (self.id == SHIELD):

@@ -1,4 +1,4 @@
-from mothic import Thing, Rect, director, keys, image, etypes, debug, draw, Surface
+from mothic import Thing, Rect, director, keys, image, etypes, debug, draw, Surface, colors
 import pygame
 from scripts import DrawnInOrder
 import numpy as np
@@ -12,12 +12,13 @@ class Player(Thing, DrawnInOrder):
         )
         DrawnInOrder.__init__(self, 1)
 
-        self.lives = 3
-        self.maxHealth = 15
+        self.lives = director.state.setdefault("lives", 1)
+        self.maxHealth = 3
         self.health = self.maxHealth
 
         self.base_image = image.load_image("player")
         self.rect.size = self.base_image.get_rect().size
+        self.hitbox = Rect(self.rect.left + 70, self.rect.top + 27, 99, 39)
         #self.test_image()
 
         self.firing_cooldown = 10
@@ -32,6 +33,8 @@ class Player(Thing, DrawnInOrder):
         self.triple_shot = False
         self.gatling_gun = False
         self.hollow_point = False
+
+        self.explosion = None
 
     def get_not_close_pixels(self, surface, target_color, threshold):
         arr = pygame.surfarray.array3d(surface)
@@ -56,8 +59,8 @@ class Player(Thing, DrawnInOrder):
         newColor = (247, 66, 66)
         difference = tuple(base - new for base, new in zip(baseColor, newColor))
 
-        mask = self.get_not_close_pixels(self.image, baseColor, 150)
-        arr = pygame.surfarray.pixels3d(self.image)
+        mask = self.get_not_close_pixels(self.base_image, baseColor, 150)
+        arr = pygame.surfarray.pixels3d(self.base_image)
 
         for c in range(3):
             arr[:, :, c][mask] = np.clip(arr[:, :, c][mask].astype(np.int16) - difference[c], 0, 255).astype(np.uint8)
@@ -89,6 +92,8 @@ class Player(Thing, DrawnInOrder):
 
     def handle_events(self, events):
         pressed = pygame.key.get_pressed()
+        if (self.health <= 0):
+            return
 
         if pressed[keys.K_w]:
             self.rect.top -= 10
@@ -98,6 +103,8 @@ class Player(Thing, DrawnInOrder):
             self.rect.left -= 10
         if pressed[keys.K_d]:
             self.rect.left += 10
+
+        self.hitbox.topleft = (self.rect.left + 70, self.rect.top + 27)
 
         if pressed[keys.K_r]:
             self.depth += 0.03
@@ -138,6 +145,29 @@ class Player(Thing, DrawnInOrder):
         debug.debug('player app. depth', f"{self.apparent_depth:.2f}")
         if self.firing_cooldown > 0:
             self.firing_cooldown -= 1
+        
+        if (self.health <= 0):
+            self.image.fill(colors.transparent)
+            if (self.explosion is None):
+                self.explosion = director.create_thing("Explosion", self.rect, self.depth)
+                if (self.lives <= 0):
+                    self.explosion.speed = 1
+                else:
+                    self.explosion.speed = 2.5
+            else:
+                if (self.explosion.alpha <= 0):
+                    if (self.lives > 0):
+                        self.health = self.maxHealth
+                        self.lives -= 1
+                        director.state["lives"] -= 1
+                        self.explosion = None
+                        self.shielded = True
+                        self.shield_timer = self.shield_timer_max / 4 * 3
+                    else:
+                        director.set_scene("MainMenuScene")
+                else:
+                    self.explosion.update()
+            return
         
         if (self.shielded):
             self.shield_timer += 1

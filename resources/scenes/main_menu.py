@@ -1,7 +1,7 @@
 import pygame
 from pygame import Surface, display
 
-from mothic import Scene, colors, director
+from mothic import Scene, colors, director, quit
 from mothic.visuals import text
 
 from ui.button import Button
@@ -15,7 +15,7 @@ class MainMenuScene(Scene):
 
         self.cake.insert_many([
             Button('Start', (200, 60), center=(centerx, 400), color=colors.teal).set_func(director.set_scene, "GameScene"),
-            Button('Quit', (200, 60), center=(centerx, 500), color=colors.teal).set_func(pygame.quit),
+            Button('Quit', (200, 60), center=(centerx, 500), color=colors.teal).set_func(quit),
         ])
 
     def handle_events(self, events):

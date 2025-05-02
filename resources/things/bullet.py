@@ -70,7 +70,7 @@ class Bullet(Thing, DrawnInOrder):
                     self.dead = True
         
         if (self.team == 2):
-            if (self.rect.colliderect(director.scene.player.rect)):
+            if (self.rect.colliderect(director.scene.player.hitbox) and director.scene.player.collide_depth(self.apparent_depth)):
                 if (not director.scene.player.shielded):
                     director.scene.player.health -= self.damage
                 self.dead = True
