@@ -16,6 +16,7 @@ class Enemy(Thing, DrawnInOrder):
         self.pos = self.rect.center
         self.health = health
         self.damage = damage
+        self.dead = False
         self.score = score
         self.speed = 5
         self.base_image = None

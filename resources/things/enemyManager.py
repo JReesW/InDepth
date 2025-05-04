@@ -21,6 +21,7 @@ class EnemyManager(Thing):
         dead, self.enemies = split(self.enemies, lambda e: e.health <= 0)
 
         for d in dead:
+            d.dead = True
             explosion = director.create_thing("Explosion", d.rect, d.depth)
             director.scene.cake.remove(d)
             director.scene.cake.insert(explosion)
