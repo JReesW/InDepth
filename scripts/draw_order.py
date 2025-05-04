@@ -1,6 +1,7 @@
 from typing import Union
 from math import e
 from mothic import director, Thing
+from pygame import Vector2, transform
 
 
 __DrawnInOrderThing = Union[Thing, "DrawnInOrder"]
@@ -22,6 +23,10 @@ def get_order():
 
 def remove_thing(thing: __DrawnInOrderThing):
     __draw_order.remove(thing)
+
+
+def clear_order():
+    __draw_order.clear()
 
 
 class DrawnInOrder:
@@ -53,12 +58,23 @@ class DrawnInOrder:
         for offset in [-6, 0, 6]:
             min_edge = self.apparent_depth + offset - self.d_width / 2
             max_edge = self.apparent_depth + offset + self.d_width / 2
-            if  min_edge < p_depth < max_edge:
+            if min_edge < p_depth < max_edge:
                 return True
         return False
-    
-    # @property  # Disgusting typing for self, I know :)
-    # def apparent_rect(self: Union[Thing, "DrawnInOrder"]) -> Rect:
+
+    # Yes, I am doing this self-type-hinting-tomfuckery
+    def apply_image_rect_effects(self: Union[Thing, 'DrawnInOrder']):
+        """
+        Apply image scaling, transparency, and rect offset
+        """
+        self.image = transform.scale_by(self.base_image, scale_factor(self.apparent_depth))
+        self.rect = self.image.get_rect()
+
+        x, y = self.pos
+        vec = Vector2(x - 960, y - 540) * scale_factor(self.apparent_depth)
+        self.rect.center = vec.x + 960, vec.y + 540
+
+        self.image.set_alpha(transparency_factor(self.apparent_depth) * 255)
 
 
 def scale_factor(z) -> float:

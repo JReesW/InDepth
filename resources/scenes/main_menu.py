@@ -1,7 +1,4 @@
-import pygame
-from pygame import Surface, display
-
-from mothic import Scene, colors, director, quit
+from mothic import Scene, colors, director, quit, Surface, display
 from mothic.visuals import text
 
 from ui.button import Button

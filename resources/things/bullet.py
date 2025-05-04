@@ -21,10 +21,15 @@ class Bullet(Thing, DrawnInOrder):
         if (self.team == 1):
             self.info_of_bullet()
         else:
-            self.image = image.load_image("bullet")
+            self.base_image = image.load_image("bullet")
 
-        self.x = self.rect.centerx
-        self.y = self.rect.centery
+        self.image = self.base_image.copy()
+
+        # self.x = self.rect.centerx
+        # self.y = self.rect.centery
+        self.pos = self.rect.center
+
+        # self.update()
 
     def info_of_bullet(self):
         triple = director.scene.player.triple_shot
@@ -32,35 +37,37 @@ class Bullet(Thing, DrawnInOrder):
         hollow = director.scene.player.hollow_point
 
         image_path = "bullet_"
-        if (triple):
+        if triple:
             image_path += "t"
-        if (gatling):
+        if gatling:
             image_path += "g"
-        if (hollow):
+        if hollow:
             image_path += "h"
             self.damage += 1
         
-        if (image_path[-1] == "_"):
+        if image_path[-1] == "_":
             image_path = image_path[:-1]
 
-        self.image = image.load_image(image_path)
+        self.base_image = image.load_image(image_path)
         center = self.rect.center
         self.rect.size = self.image.size
         self.rect.center = center
 
-        if (triple):
+        if triple:
             vel = Vector2(self.velocity)
             angle = vel.angle_to(Vector2(1, 0))
-            self.image = transform.rotate(self.image, angle)
+            self.base_image = transform.rotate(self.base_image, angle)
     
     def update(self):
         self.lifespan -= 1
         if (self.lifespan < 0):
             self.dead = True
-        
-        self.x += self.velocity[0]
-        self.y += self.velocity[1]
-        self.rect.center = (self.x, self.y)
+
+        self.pos = self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1]
+        # self.x += self.velocity[0]
+        # self.y += self.velocity[1]
+
+        self.apply_image_rect_effects()
 
         if (self.team == 1):
             for enemy in director.scene.enemy_manager.enemies:

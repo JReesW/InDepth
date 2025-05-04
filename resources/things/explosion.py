@@ -70,7 +70,12 @@ class Explosion(Thing, DrawnInOrder):
             explosionRect = explosion.get_rect()
             explosionRect.center = surfRect.center
             surf.blit(explosion, explosionRect)
-        
+
+        # self.base_image = surf
+        # self.apply_image_rect_effects()
+
+        # I'd wanna straighten this out, but later (or never lmao)
+
         scaledSurf = transform.scale_by(surf, scale_factor(self.apparent_depth))
         self.rect = scaledSurf.get_rect()
 

@@ -1,6 +1,9 @@
-from mothic import Thing, Rect, director, Surface
+from mothic import Thing, Rect, director, Surface, debug
 from mothic.util.functions import split
 from resources.things.powerup import *
+
+from scripts.draw_order import remove_thing
+
 
 class PowerupManager(Thing):
     def __init__(self, image = None, rect = None, *, default_event_layer = 0, default_update_layer = 2, default_render_layer = 10):
@@ -10,18 +13,16 @@ class PowerupManager(Thing):
         )
         self.powerups = []
 
-    def spawn(self, powerupType: int, pos: tuple[float, float]):
-        self.powerups.append(Powerup(powerupType, pos))
+    def spawn(self, powerupType: int, pos: tuple[float, float], depth):
+        self.powerups.append(Powerup(powerupType, pos, depth))
 
     def update(self):
         for powerup in self.powerups:
             powerup.update()
 
         collided, self.powerups = split(self.powerups, lambda p: p.collidePlayer())
+        debug.debug("Upgrades", len(self.powerups))
 
         for powerup in collided:
             powerup.apply()
-    
-    def render(self, surface: Surface):
-        for p in self.powerups:
-            p.render(surface)
+            remove_thing(powerup)

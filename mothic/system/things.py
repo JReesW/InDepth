@@ -20,6 +20,7 @@ class Thing(Sprite):
         Sprite.__init__(self)
 
         self.rect = rect if rect is not None else Rect(50, 50, 10, 10)
+        self.base_image = None
 
         if image is None:
             self.image = Surface(self.rect.size).convert_alpha()
