@@ -2,7 +2,7 @@ from mothic import Scene, keys
 from pygame import SRCALPHA
 
 from scripts.draw_order import get_order, reorder, clear_order
-from scripts.levels import satellite, longshot, levels
+from scripts.levels import levels
 from resources.things.powerup import *
 
 

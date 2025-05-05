@@ -26,7 +26,7 @@ class EnemyManager(Thing):
         for d in dead:
             d.dead = True
             explosion = director.create_thing("Explosion", d.rect, d.depth)
-            if randint(1, 10) == 1:
+            if randint(1, 5) == 1:
                 director.scene.powerupManager.spawn(randint(0, 5), d.pos, d.depth)
             director.scene.cake.remove(d)
             director.scene.cake.insert(explosion)
