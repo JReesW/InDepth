@@ -1,8 +1,6 @@
 from mothic import Rect, image, director
 from resources.things.enemy import Enemy
 from pygame import Vector2
-from scripts import DrawnInOrder
-from scripts.lissajous import lissajous
 
 from random import random, randint
 

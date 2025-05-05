@@ -1,3 +1,4 @@
+from mothic.maths.numbers import remap
 from math import sin, pi
 from pygame import Vector3
 
@@ -58,9 +59,26 @@ class Line(Movement):
 
 
 class Lissajous(Movement):
-    def __init__(self, duration: int):
+    """
+    A single loop through a lissajous curve,
+    given the width and height of the curve, as well as the horizontal and vertical frequencies.
+    Starts and ends in the center (if center exists)
+    """
+    def __init__(self, width: int, height: int, hor_freq: int, ver_freq: int, duration: int):
         super().__init__(duration)
+
+        self.width = width // 2
+        self.height = height // 2
+        self.hor_freq = hor_freq
+        self.ver_freq = ver_freq
 
     def move(self):
         super().move()
+
+        theta = remap(self.ticks, 0, self.duration, 0, 2 * pi)
+        dx = self.width * sin(self.ver_freq * theta)
+        dy = self.height * sin(self.hor_freq * theta)
+
+        ax, ay, ad = self.anchor
+        return dx + ax, dy + ay, ad
 
