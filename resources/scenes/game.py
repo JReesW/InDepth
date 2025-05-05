@@ -37,7 +37,7 @@ class GameScene(Scene):
 
         # self.enemy_manager.spawn(*longshot)
 
-        self.grace = 30
+        self.grace = 120
         self.done = False
 
     def handle_events(self, events):
