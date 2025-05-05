@@ -21,7 +21,8 @@ class LevelClearOverlay(Scene):
         draw.rect(self.surface, (180, 180, 180), Rect(0, 0, *rect.size), border_radius=20)
         draw.rect(self.surface, colors.light_slate_gray, Rect(0, 0, *rect.size), 4, border_radius=20)
 
-        s, r = text.render("Level Complete!", colors.white, "consolamono-bold", 48)
+        prompt = "Game Complete!" if director.state['level'] == 3 else "Level Complete!"
+        s, r = text.render(prompt, colors.white, "consolamono-bold", 48)
         r.center = self.rect.width / 2, self.rect.height / 2
         self.surface.blit(s, r)
 
@@ -33,7 +34,7 @@ class LevelClearOverlay(Scene):
         self.timer -= 1
         if self.timer == 0:
             if director.state['level'] == 3:
-                director.set_scene("MainMenuScene")
+                director.set_scene("CreditsScene")
             else:
                 director.set_scene("LevelIntroScene", director.state['level'] + 1)
 
