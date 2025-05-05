@@ -140,6 +140,8 @@ class Player(Thing, DrawnInOrder):
                     bullet_dir = base_dir.rotate(-5)
                     bullet_velocity = bullet_dir * bullet_speed
                     director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), tuple(bullet_velocity), 120, self.depth, self.team, self.damage)
+
+                director.scene.audio_manager.play_sound('player_shot')
     
     def update(self):
         self.image = self.base_image.copy()

@@ -60,7 +60,7 @@ class Game:
         director.find_things(things_folder)
         starting_scene_args = [] if starting_scene_args is None else starting_scene_args
         starting_scene_kwargs = {} if starting_scene_kwargs is None else starting_scene_kwargs
-        director.set_scene(starting_scene, _prevent_raise=True, *starting_scene_args, **starting_scene_kwargs)
+        director.set_scene(starting_scene, *starting_scene_args, **starting_scene_kwargs)
 
     def frame(self):
         self.clock.tick(self.fps)

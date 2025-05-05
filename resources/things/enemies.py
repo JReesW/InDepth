@@ -49,6 +49,7 @@ class Patrol(Enemy):
 
                 director.scene.bullet_manager.shoot(Rect(*self.rect.center, 10, 5), direction, 120, self.depth, self.team, self.damage)
                 self.cooldown = self.cooldown_reset
+                director.scene.audio_manager.play_sound('patrol_shot')
         else:
             self.cooldown -= 1
 
@@ -83,6 +84,7 @@ class Satellite(Enemy):
                 for d in directions:
                     director.scene.bullet_manager.shoot(Rect(*self.rect.center, 10, 5), d, 180, self.depth, self.team, self.damage)
                 self.cooldown = self.cooldown_reset
+                director.scene.audio_manager.play_sound('satellite_shot')
         else:
             self.cooldown -= 1
 

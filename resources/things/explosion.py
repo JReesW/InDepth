@@ -24,6 +24,8 @@ class Explosion(Thing, DrawnInOrder):
         self.shockwaveScale = -0.5
         self.alpha = 255
 
+        director.scene.audio_manager.play_sound('explosion')
+
     def update(self):
         self.timer += 1
         # print(self.timer)

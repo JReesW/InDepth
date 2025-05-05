@@ -1,19 +1,22 @@
 from mothic import Scene, keys
-from mothic.media import audio
 from pygame import SRCALPHA
 
-from scripts.draw_order import get_order, reorder
+from scripts.draw_order import get_order, reorder, clear_order
 from resources.things.powerup import *
 
 
 class GameScene(Scene):
     def init(self):
+        clear_order()
+
         self.player = director.create_thing("Player")
         self.cake.insert(
             self.player
         )
 
-        self.audio_manager.add_sound("player_damaged", "player_damaged.wav")
+        sounds = ["player_damaged", "player_shot", "patrol_shot", "gunship_shot", "explosion", "satellite_shot"]
+        for sound in sounds:
+            self.audio_manager.add_sound(sound, sound + '.wav')
 
         self.level_tint = Surface((1920, 1080), SRCALPHA)
         self.level_tint.fill((0, 0, 255, 25))
@@ -51,6 +54,9 @@ class GameScene(Scene):
         if pressed[keys.K_h]:
             for enemy in self.enemy_manager.enemies:
                 enemy.depth -= 0.03
+
+        if pressed[keys.K_ESCAPE]:
+            director.set_scene("PauseOverlay", self)
 
     def update(self):
         self.cake.update()

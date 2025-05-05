@@ -80,7 +80,7 @@ class Bullet(Thing, DrawnInOrder):
         
         if (self.team == 2):
             if (self.rect.colliderect(director.scene.player.hitbox) and director.scene.player.collide_depth(self.apparent_depth)):
-                if (not director.scene.player.shielded):
+                if not director.scene.player.shielded and director.scene.player.health > 0:
                     director.scene.player.health -= self.damage
                     director.scene.audio_manager.play_sound("player_damaged")
                 self.dead = True

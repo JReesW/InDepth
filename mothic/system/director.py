@@ -14,21 +14,33 @@ from pathlib import Path
 scene = None
 __scenes = {}
 __things = {}
+__prevent_raise = True
 
 # For now a dict, but should probably become something more sophisticated
 state = {}
 settings = {}
 
 
-def set_scene(_scene: str, _prevent_raise = False, *args, **kwargs) -> None:
+def set_scene(_scene: str, *args, **kwargs) -> None:
     """
-    Set the current scene to the given scene
+    Set the current scene to a fresh instance of the given scene name
+    """
+    global scene, __prevent_raise
+    scene = __scenes[_scene](*args, **kwargs)
+    scene.init(*args, **kwargs)
+    if not __prevent_raise:
+        raise SwitchScene
+    else:
+        __prevent_raise = False
+
+
+def give_scene(_scene: Scene):
+    """
+    Set the current scene to the given scene object
     """
     global scene
-    scene = __scenes[_scene]()
-    scene.init(*args, **kwargs)
-    if not _prevent_raise:
-        raise SwitchScene
+    scene = _scene
+    raise SwitchScene
 
 
 def find_scenes(path: os.PathLike = "resources/scenes"):

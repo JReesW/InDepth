@@ -56,12 +56,11 @@ class MainMenuScene(Scene):
 
         self.centerx = display.get_surface().get_rect().centerx
 
-        self.buttons = [
+        self.cake.insert_many([
             Button('Start', (200, 60), center=(self.centerx, 500)).set_func(director.set_scene, "GameScene"),
             Button('Credits', (200, 60), center=(self.centerx, 600)).set_func(director.set_scene, "CreditsScene"),
             Button('Quit', (200, 60), center=(self.centerx, 700)).set_func(quit),
-        ]
-        self.cake.insert_many(self.buttons)
+        ])
         self.ships = []
 
         self.title_image = image.load_image("indepth_title")
