@@ -3,6 +3,8 @@ from mothic import Rect, Thing, director, image
 from scripts.draw_order import DrawnInOrder
 from pygame import Vector2, transform
 
+from math import atan2, degrees
+
 
 class Bullet(Thing, DrawnInOrder):
     def __init__(self, rect : Rect, velocity, lifespan, depth, team=0, damage = 1):
@@ -22,14 +24,15 @@ class Bullet(Thing, DrawnInOrder):
         if (self.team == 1):
             self.info_of_bullet()
         else:
-            self.base_image = image.load_image("bullet")
+            # self.base_image = image.load_image("bullet")
+            angle = degrees(atan2(*self.velocity)) - 90
+            self.base_image = transform.rotate(image.load_image("bullet"), angle)
 
         self.image = self.base_image.copy()
         self.apply_image_rect_effects()
 
         # self.x = self.rect.centerx
         # self.y = self.rect.centery
-
 
         # self.update()
 

@@ -8,20 +8,19 @@ from random import random, randint
 
 
 class Patrol(Enemy):
-    def __init__(self, pos, depth, tick):
+    def __init__(self, pos, depth, entry_movements, repeat_movements):
         Enemy.__init__(
             self,
             health=5,
             damage=1,
             score=50,
             rect=Rect(*pos, 100, 100),
-            depth=depth
+            depth=depth,
+            entry_movements=entry_movements,
+            repeat_movements=repeat_movements
         )
         self.base_image = image.load_image("patrol")
         self.rect.size = self.image.get_rect().size
-        self.anchor = pos
-
-        self.tick = tick
     
         self.cooldown = 0
         self.cooldown_reset = 40
@@ -29,17 +28,7 @@ class Patrol(Enemy):
         self.shotspeed = 20
 
     def move(self):
-        pass
-        # self.pos = lissajous(self.anchor, 100, 400, 2, 3, self.tick, 600)
-        # self.tick = (self.tick + 1) % 600
-
-        # if self.pos[0] <= 0:
-        #     self.speed = 5
-        # elif self.pos[1] >= 1920:
-        #     self.speed = -5
-        # x, y = self.pos
-        # x += self.speed
-        # self.pos = (x, y)
+        super().move()
 
     def attack(self):
         if self.cooldown == 0:
@@ -55,24 +44,37 @@ class Patrol(Enemy):
 
 
 class Satellite(Enemy):
-    def __init__(self, pos, depth):
+    def __init__(self, pos, depth, entry_movements, repeat_movements):
         super().__init__(
             health=30,
             damage=2,
             score=250,
             rect=Rect(*pos, 100, 100),
-            depth=depth
+            depth=depth,
+            entry_movements=entry_movements,
+            repeat_movements=repeat_movements
         )
-        self.base_image = image.load_image("satellite")
+        self.base_image = image.load_image("satellite_wings_2")
         self.rect.size = self.image.get_rect().size
 
         self.cooldown = 0
         self.cooldown_reset = 40
 
         self.shotspeed = 12
+        self.unfold_timer = 10
+        self.unfold_flag = 0
 
     def move(self):
-        pass
+        super().move()
+
+        if self.emp == 1 and self.unfold_flag == 0:
+            self.base_image = image.load_image("satellite_wings_1")
+            self.unfold_flag = 1
+        elif self.unfold_flag == 1:
+            if self.unfold_timer <= 0:
+                self.base_image = image.load_image("satellite")
+                self.unfold_flag = 2
+            self.unfold_timer -= 1
 
     def attack(self):
         if self.cooldown == 0:
@@ -90,37 +92,43 @@ class Satellite(Enemy):
 
 
 class Kamikaze(Enemy):
-    def __init__(self, pos, depth):
+    def __init__(self, pos, depth, entry_movements, repeat_movements):
         super().__init__(
             health=3,
             damage=10,
             score=150,
             rect=Rect(*pos, 100, 100),
-            depth=depth
+            depth=depth,
+            entry_movements=entry_movements,
+            repeat_movements=repeat_movements
         )
         self.base_image = image.load_image("kamikaze_w")
         self.rect.size = self.image.get_rect().size
 
 
 class Longshot(Enemy):
-    def __init__(self, pos, depth):
+    def __init__(self, pos, depth, entry_movements, repeat_movements):
         super().__init__(
             health=45,
             damage=3,
             score=400,
             rect=Rect(*pos, 100, 100),
-            depth=depth
+            depth=depth,
+            entry_movements=entry_movements,
+            repeat_movements=repeat_movements
         )
         self.base_image = image.load_image("longshot")
         self.rect.size = self.image.get_rect().size
 
 
 class Scute(Enemy):
-    def __init__(self, pos, depth):
+    def __init__(self, pos, depth, entry_movements, repeat_movements):
         super().__init__(
             health=20,
             damage=0,
             score=300,
             rect=Rect(*pos, 100, 100),
-            depth=depth
+            depth=depth,
+            entry_movements=entry_movements,
+            repeat_movements=repeat_movements
         )

@@ -2,6 +2,7 @@ from mothic import Scene, keys
 from pygame import SRCALPHA
 
 from scripts.draw_order import get_order, reorder, clear_order
+from scripts.levels import enemy, satellite
 from resources.things.powerup import *
 
 
@@ -30,12 +31,12 @@ class GameScene(Scene):
         self.bullet_manager = director.create_thing("BulletManager")
         self.enemy_manager = director.create_thing("EnemyManager")
 
-        self.enemy_manager.spawn("Patrol", (1700, 240), 1, 0)
+        self.enemy_manager.spawn(*satellite)
         # self.enemy_manager.spawn("Patrol", (1400, 640), 0, 0)
         # self.enemy_manager.spawn("Patrol", (1600, 340), 2, 0)
         # self.enemy_manager.spawn("Patrol", (1500, 440), 3, 0)
         # self.enemy_manager.spawn("Patrol", (1100, 540), 4, 0)
-        self.enemy_manager.spawn("Satellite", (1700, 440), 1)
+        # self.enemy_manager.spawn("Satellite", (1700, 440), 1)
         # self.enemy_manager.spawn("Longshot", (0, 440))
         # self.enemy_manager.spawn("Kamikaze", (0, 540))
 
