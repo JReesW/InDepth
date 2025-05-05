@@ -40,7 +40,6 @@ class Button(Thing):
             self.focus_timer += 1
         elif not self.focused and self.focus_timer > 0:
             self.focus_timer -= 1
-        debug.debug("focus timer", self.focus_timer)
 
         if self.focus_timer > 0:
             self.image = self.base_image.copy()

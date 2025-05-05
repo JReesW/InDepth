@@ -21,7 +21,6 @@ class PowerupManager(Thing):
             powerup.update()
 
         collided, self.powerups = split(self.powerups, lambda p: p.collidePlayer())
-        debug.debug("Upgrades", len(self.powerups))
 
         for powerup in collided:
             powerup.apply()

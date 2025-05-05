@@ -128,21 +128,19 @@ class Player(Thing, DrawnInOrder):
                 bullet_speed = 20
                 base_dir = pygame.Vector2(1, 0)
                 bullet_velocity = base_dir * bullet_speed
-                director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), tuple(bullet_velocity), 600, self.depth, self.team, self.damage)
+                director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), tuple(bullet_velocity), 120, self.depth, self.team, self.damage)
 
                 if (self.triple_shot):
                     bullet_dir = base_dir.rotate(5)
                     bullet_velocity = bullet_dir * bullet_speed
-                    director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), tuple(bullet_velocity), 600, self.depth, self.team, self.damage)
+                    director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), tuple(bullet_velocity), 120, self.depth, self.team, self.damage)
 
                     bullet_dir = base_dir.rotate(-5)
                     bullet_velocity = bullet_dir * bullet_speed
-                    director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), tuple(bullet_velocity), 600, self.depth, self.team, self.damage)
+                    director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), tuple(bullet_velocity), 120, self.depth, self.team, self.damage)
     
     def update(self):
         self.image = self.base_image.copy()
-        debug.debug('player depth', f"{self.depth:.2f}")
-        debug.debug('player app. depth', f"{self.apparent_depth:.2f}")
         if self.firing_cooldown > 0:
             self.firing_cooldown -= 1
         

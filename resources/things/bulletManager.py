@@ -1,4 +1,4 @@
-from mothic import Thing, image, Rect, director
+from mothic import Thing, debug, Rect, director
 from mothic.util.functions import split
 
 from scripts.draw_order import remove_thing
@@ -19,6 +19,7 @@ class BulletManager(Thing):
 
     def update(self):
         dead, self.bullets = split(self.bullets, lambda b: b.dead)
+        debug.debug("amound of bullets", len(self.bullets))
 
         for d in dead:
             director.scene.cake.remove(d)

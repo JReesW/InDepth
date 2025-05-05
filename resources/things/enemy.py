@@ -1,7 +1,6 @@
 from mothic import Thing, director, Surface, Rect, colors
-from pygame import transform, Vector2
 
-from scripts.draw_order import DrawnInOrder, scale_factor, transparency_factor
+from scripts.draw_order import DrawnInOrder
 
 
 class Enemy(Thing, DrawnInOrder):
