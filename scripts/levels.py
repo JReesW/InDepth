@@ -195,15 +195,137 @@ level2 = lambda: Level(
             subsequences=[
                 Subsequence(
                     enemies=[
-                        ("Patrol", (2200, 300), 1, [
-                            Line((1600, 300, 1), 180)
-                        ], [
-                            Lissajous(300, 100, 2, 4, 600)
-                        ])
+                        (
+                            "Patrol", (2200, 300), 1, [
+                                Line((1600, 300, 4), 180)
+                            ], [
+                                Lissajous(300, 100, 2, 4, 600)
+                            ]
+                        ),
+                        (
+                            "Patrol", (2200, 300), 0, [
+                                Line((1600, 500, 4), 180)
+                            ], [
+                                Lissajous(300, 100, 2, 4, 600)
+                            ]
+                        ),
+                        (
+                            "Patrol", (2200, 300), 2, [
+                                Line((1600, 700, 4), 180)
+                            ], [
+                                Lissajous(300, 100, 2, 4, 600)
+                            ]
+                        ),
+                        (
+                            "Patrol", (2200, 300), 3, [
+                                Line((1600, 500, 1), 180)
+                            ], [
+                                Lissajous(300, 100, 2, 4, 600)
+                            ]
+                        ),
+                        (
+                            "Patrol", (2200, 300), 4, [
+                                Line((1600, 700, 1), 180)
+                            ], [
+                                Lissajous(300, 100, 2, 4, 600)
+                            ]
+                        ),
+                        (
+                            "Patrol", (2200, 300), 5, [
+                                Line((1600, 300, 1), 180)
+                            ], [
+                                Lissajous(300, 100, 2, 4, 600)
+                            ]
+                        )
                     ],
                     delay=300
                 )
-            ])
+            ]
+        ),
+        Sequence(
+            subsequences=[
+                Subsequence(
+                    enemies=[
+                        (
+                            "Satellite", (2600, 450), 3, [
+                                Line((800, 450, 1), 150),
+                                Line((1600, 450, 1), 90)
+                            ], [
+                                Lissajous(100, 500, 2, 4, 600)
+                            ]
+                        )
+                    ],
+                    delay=300
+                ),
+                Subsequence(
+                    enemies=[
+                        (
+                            "Satellite", (2500, -200), 5, [
+                                Line((800, 300, 1), 150),
+                                Line((1800, 300, 1), 90)
+                            ], [
+                                Lissajous(100, 300, 2, 4, 600)
+                            ]
+                        ),
+                        (
+                            "Satellite", (2500, 1200), 5, [
+                                Line((800, 600, 1), 150),
+                                Line((1800, 600, 1), 90)
+                            ], [
+                                Lissajous(100, 300, 2, 4, 600)
+                            ]
+                        )
+                    ],
+                    delay=150
+                )
+            ]
+        ),
+        Sequence(
+            subsequences=[
+                Subsequence(
+                    enemies=[
+                        (
+                            "Patrol", (2200, -800), 0, [
+                                Line((1600, 450, 3), 180)
+                            ], [
+                                Lissajous(100, 500, 2, 8, 600)
+                            ]
+                        ),
+                        (
+                            "Patrol", (2900, 450), 0, [
+                                Line((1400, 450, 3), 180)
+                            ], [
+                                Lissajous(100, 500, 2, 8, 600)
+                            ]
+                        ),
+                        (
+                            "Patrol", (2200, 1500), 0, [
+                                Line((1200, 450, 3), 180)
+                            ], [
+                                Lissajous(100, 500, 2, 8, 600)
+                            ]
+                        ),
+                    ],
+                    delay=150
+                )
+            ]
+        ),
+        Sequence(
+            subsequences=[
+                Subsequence(
+                    enemies=[
+                        (
+                            "Longshot", (1300, -300), 3, [
+                                Line((1600, 450, 3), 240)
+                            ], [
+                                Lissajous(300, 500, 2, 3, 600)
+                            ]
+                        ),
+                    ],
+                    delay=150
+                )
+            ]
+        )
     ],
     background="level_2_bg",
     tint=(0, 0, 255, 15)
