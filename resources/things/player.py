@@ -108,17 +108,10 @@ class Player(Thing, DrawnInOrder):
         self.rect.center = self.pos
         self.hitbox.topleft = (self.rect.left + 70, self.rect.top + 27)
 
-        if pressed[keys.K_r]:
+        if pressed[keys.K_r] or pressed[keys.K_i]:
             self.depth += 0.03
-        if pressed[keys.K_f]:
+        if pressed[keys.K_f] or pressed[keys.K_k]:
             self.depth -= 0.03
-
-        for event in events:
-            if event.type == etypes.KEYUP:
-                if event.key == keys.K_k:
-                    self.health -= 1
-                if event.key == keys.K_l:
-                    self.health = min(self.health + 1, self.maxHealth)
 
         if pressed[keys.K_SPACE]:
             if self.firing_cooldown == 0:

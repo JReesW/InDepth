@@ -64,18 +64,20 @@ class Lissajous(Movement):
     given the width and height of the curve, as well as the horizontal and vertical frequencies.
     Starts and ends in the center (if center exists)
     """
-    def __init__(self, width: int, height: int, hor_freq: int, ver_freq: int, duration: int):
+    def __init__(self, width: int, height: int, hor_freq: int, ver_freq: int, duration: int, start_tick = None, steps: int = None):
         super().__init__(duration)
 
         self.width = width // 2
         self.height = height // 2
         self.hor_freq = hor_freq
         self.ver_freq = ver_freq
+        self.steps = duration if steps is None else steps
+        self.ticks = 0 if start_tick == None else start_tick
 
     def move(self):
         super().move()
 
-        theta = remap(self.ticks, 0, self.duration, 0, 2 * pi)
+        theta = remap(self.ticks, 0, self.steps, 0, 2 * pi)
         dx = self.width * sin(self.ver_freq * theta)
         dy = self.height * sin(self.hor_freq * theta)
 

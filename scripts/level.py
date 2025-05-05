@@ -1,5 +1,6 @@
 from mothic import colors
-from resources.things.enemy import Enemy
+
+Enemy = tuple[str, tuple[float, float], float, list, list]
 
 
 class Subsequence:
@@ -8,14 +9,16 @@ class Subsequence:
     """
 
     def __init__(self, enemies: list[Enemy], delay: int):
-        self.enemies = enemies
+        self.enemies = enemies  # blueprints
+        self.e_objs = []  # enemy objects
         self.delay = delay
         self.ticks = 0
+        self.used = False
 
     def update(self):
         self.ticks += 1
 
-    def finished(self) -> bool:
+    def done(self) -> bool:
         """
         Return whether this subsequence has run for enough ticks
         """
@@ -29,16 +32,16 @@ class Sequence:
 
     def __init__(self, subsequences: list[Subsequence]):
         self.subsequences = subsequences
-        self.current_subsequence = subsequences[0]
+        self.pointer = 0
 
     def update(self):
-        self.current_subsequence.update()
+        self.subsequences[self.pointer].update()
 
-    def cleared(self) -> bool:
+    def done(self) -> bool:
         """
         Return whether all enemies in all subsequences have been defeated
         """
-        return all(all(e.dead for e in s.enemies) for s in self.subsequences)
+        return all(all(e.dead for e in s.e_objs) for s in self.subsequences) and self.pointer >= len(self.subsequences) - 1
 
 
 class Level:
@@ -46,13 +49,12 @@ class Level:
     Sequences of enemies followed by a boss, with other level settings too
     """
 
-    def __init__(self, sequences: list[Sequence], boss: str, background: str, tint: colors.Color):
+    def __init__(self, sequences: list[Sequence], background: str, tint: colors.Color):
         self.sequences = sequences
-        self.current_sequence = sequences[0]
+        self.pointer = 0
 
-        self.boss = boss
         self.background = background
         self.tint = tint
 
     def update(self):
-        self.current_sequence.update()
+        self.sequences[self.pointer].update()

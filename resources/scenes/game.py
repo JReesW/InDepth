@@ -2,7 +2,7 @@ from mothic import Scene, keys
 from pygame import SRCALPHA
 
 from scripts.draw_order import get_order, reorder, clear_order
-from scripts.levels import enemy, satellite
+from scripts.levels import satellite, longshot, levels
 from resources.things.powerup import *
 
 
@@ -19,8 +19,12 @@ class GameScene(Scene):
         for sound in sounds:
             self.audio_manager.add_sound(sound, sound + '.wav')
 
+        self.level = levels[director.state['level']]()
         self.level_tint = Surface((1920, 1080), SRCALPHA)
-        self.level_tint.fill((0, 0, 255, 25))
+        self.level_tint.fill(self.level.tint)
+
+        self.background = image.load_image(self.level.background)
+        self.background_offset = 0
 
         self.player_ui = director.create_thing("UI")
         self.cake.insert(self.player_ui)
@@ -31,19 +35,10 @@ class GameScene(Scene):
         self.bullet_manager = director.create_thing("BulletManager")
         self.enemy_manager = director.create_thing("EnemyManager")
 
-        self.enemy_manager.spawn(*satellite)
-        # self.enemy_manager.spawn("Patrol", (1400, 640), 0, 0)
-        # self.enemy_manager.spawn("Patrol", (1600, 340), 2, 0)
-        # self.enemy_manager.spawn("Patrol", (1500, 440), 3, 0)
-        # self.enemy_manager.spawn("Patrol", (1100, 540), 4, 0)
-        # self.enemy_manager.spawn("Satellite", (1700, 440), 1)
-        # self.enemy_manager.spawn("Longshot", (0, 440))
-        # self.enemy_manager.spawn("Kamikaze", (0, 540))
+        # self.enemy_manager.spawn(*longshot)
 
-        # self.powerupManager.spawn(SHIELD, (500, 340), 1)
-        # self.powerupManager.spawn(TRIPLE_SHOT, (500, 440), 1)
-        # self.powerupManager.spawn(GATLING_GUN, (500, 540), 1)
-        # self.powerupManager.spawn(HOLLOW_POINT, (500, 640), 1)
+        self.grace = 30
+        self.done = False
 
     def handle_events(self, events):
         self.cake.handle_events(events)
@@ -65,9 +60,19 @@ class GameScene(Scene):
         self.bullet_manager.update()
         self.enemy_manager.update()
         reorder()
+        self.background_offset = (self.background_offset + 1) % (1920 * 3)
+
+        if self.grace <= 0 and not self.done:
+            self.spawn()
+            self.level.update()
+        else:
+            self.grace -= 1
 
     def render(self, surface: Surface):
         surface.fill((100, 100, 100))
+
+        surface.blit(self.background, (-self.background_offset / 3, 1080 - self.background.get_height()))
+        surface.blit(self.background, (-self.background_offset / 3 + 1920, 1080 - self.background.get_height()))
 
         # This instead of rendering the cake
         for thing in get_order():
@@ -78,4 +83,23 @@ class GameScene(Scene):
         surface.blit(self.player_ui.image, self.player_ui.rect)
         surface.blit(self.depth_measure.image, self.depth_measure.rect)
         # self.cake.render(surface)
-        
+
+    def spawn(self):
+        seq = self.level.sequences[self.level.pointer]
+        subseq = seq.subsequences[seq.pointer]
+
+        if not subseq.used:
+            for enemy in seq.subsequences[seq.pointer].enemies:
+                e = self.enemy_manager.spawn(*enemy)
+                seq.subsequences[seq.pointer].e_objs.append(e)
+                seq.subsequences[seq.pointer].used = True
+        else:
+            if subseq.done() and seq.pointer < len(seq.subsequences) - 1:
+                seq.pointer += 1
+            elif seq.done() and self.level.pointer < len(self.level.sequences):
+                self.level.pointer += 1
+
+                if self.level.pointer >= len(self.level.sequences):
+                    self.done = True
+                    director.set_scene("LevelClearOverlay", self)
+

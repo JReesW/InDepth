@@ -57,9 +57,10 @@ class MainMenuScene(Scene):
         self.centerx = display.get_surface().get_rect().centerx
 
         self.cake.insert_many([
-            Button('Start', (200, 60), center=(self.centerx, 500)).set_func(director.set_scene, "GameScene"),
-            Button('Credits', (200, 60), center=(self.centerx, 600)).set_func(director.set_scene, "CreditsScene"),
-            Button('Quit', (200, 60), center=(self.centerx, 700)).set_func(quit),
+            Button('Start', (200, 60), center=(self.centerx, 500)).set_func(director.set_scene, "LevelIntroScene", 1),
+            Button('How to Play', (330, 60), center=(self.centerx, 600)).set_func(director.set_scene, "HowToPlayScene"),
+            Button('Credits', (200, 60), center=(self.centerx, 700)).set_func(director.set_scene, "CreditsScene"),
+            Button('Quit', (200, 60), center=(self.centerx, 800)).set_func(quit),
         ])
         self.ships = []
 

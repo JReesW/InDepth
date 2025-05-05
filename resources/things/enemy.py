@@ -1,4 +1,4 @@
-from mothic import Thing, director, Surface, Rect, colors, debug
+from mothic import Thing, director, Surface, Rect, colors
 
 from scripts.draw_order import DrawnInOrder
 
@@ -65,8 +65,6 @@ class Enemy(Thing, DrawnInOrder):
     def update(self):
         self.move()
         self.attack()
-
-        debug.debug('enemy pos', self.pos)
 
         self.apply_image_rect_effects()
 
