@@ -1,11 +1,16 @@
-from mothic import Rect, image, debug, director
+from mothic import Rect, image, director
 from resources.things.enemy import Enemy
+from pygame import Vector2
 from scripts import DrawnInOrder
 from scripts.lissajous import lissajous
 
+from random import random, randint
+
+
 class Patrol(Enemy):
     def __init__(self, pos, depth, tick):
-        Enemy.__init__(self,
+        Enemy.__init__(
+            self,
             health=5,
             damage=1,
             score=50,
@@ -18,16 +23,13 @@ class Patrol(Enemy):
 
         self.tick = tick
     
-        self.attackTimer = 0
+        self.cooldown = 0
+        self.cooldown_reset = 40
 
-    def update(self):
-        Enemy.update(self)
+        self.shotspeed = 20
 
-        self.attackTimer += 1
-        if (self.attackTimer > 60):
-            director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), (-20, 0), 120, self.depth, self.team, self.damage)
-            self.attackTimer = 0
-
+    def move(self):
+        pass
         # self.pos = lissajous(self.anchor, 100, 400, 2, 3, self.tick, 600)
         # self.tick = (self.tick + 1) % 600
 
@@ -39,6 +41,18 @@ class Patrol(Enemy):
         # x += self.speed
         # self.pos = (x, y)
 
+    def attack(self):
+        if self.cooldown == 0:
+            if randint(1, 30) == 1:
+                target = Vector2(director.scene.player.pos)
+                direction = (Vector2(self.pos) - target).normalize() * -self.shotspeed
+
+                director.scene.bullet_manager.shoot(Rect(*self.rect.center, 10, 5), direction, 120, self.depth, self.team, self.damage)
+                self.cooldown = self.cooldown_reset
+        else:
+            self.cooldown -= 1
+
+
 class Satellite(Enemy):
     def __init__(self, pos, depth):
         super().__init__(
@@ -48,21 +62,30 @@ class Satellite(Enemy):
             rect=Rect(*pos, 100, 100),
             depth=depth
         )
-        self.base_image = image.load_image("satellite_wings_1")
+        self.base_image = image.load_image("satellite")
         self.rect.size = self.image.get_rect().size
-        self.attackTimer = 0
 
-    def update(self):
-        self.attackTimer += 1
-        if (self.attackTimer > 60):
-            director.scene.bullet_manager.shoot(Rect(self.rect.centerx, self.rect.centery, 10, 5), (-20, 0), 600, self.team, self.damage)
-            self.attackTimer = 0
+        self.cooldown = 0
+        self.cooldown_reset = 40
 
-        if self.rect.left <= 0:
-            self.speed = 5
-        elif self.rect.left >= 1920:
-            self.speed = -5
-        self.rect.left += self.speed
+        self.shotspeed = 12
+
+    def move(self):
+        pass
+
+    def attack(self):
+        if self.cooldown == 0:
+            if randint(1, 30) == 1:
+                target = Vector2(director.scene.player.pos)
+                direction = (Vector2(self.pos) - target).normalize() * -self.shotspeed
+                directions = [direction.rotate(-7), direction, direction.rotate(7)]
+
+                for d in directions:
+                    director.scene.bullet_manager.shoot(Rect(*self.rect.center, 10, 5), d, 180, self.depth, self.team, self.damage)
+                self.cooldown = self.cooldown_reset
+        else:
+            self.cooldown -= 1
+
 
 class Kamikaze(Enemy):
     def __init__(self, pos, depth):

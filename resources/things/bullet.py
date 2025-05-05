@@ -12,6 +12,7 @@ class Bullet(Thing, DrawnInOrder):
                         default_render_layer=8
                         )
         DrawnInOrder.__init__(self, depth)
+        self.pos = self.rect.center
         self.velocity = velocity
         self.lifespan = lifespan
         self.dead = False
@@ -24,10 +25,11 @@ class Bullet(Thing, DrawnInOrder):
             self.base_image = image.load_image("bullet")
 
         self.image = self.base_image.copy()
+        self.apply_image_rect_effects()
 
         # self.x = self.rect.centerx
         # self.y = self.rect.centery
-        self.pos = self.rect.center
+
 
         # self.update()
 
@@ -80,4 +82,5 @@ class Bullet(Thing, DrawnInOrder):
             if (self.rect.colliderect(director.scene.player.hitbox) and director.scene.player.collide_depth(self.apparent_depth)):
                 if (not director.scene.player.shielded):
                     director.scene.player.health -= self.damage
+                    director.scene.audio_manager.play_sound("player_damaged")
                 self.dead = True

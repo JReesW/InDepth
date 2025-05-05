@@ -25,7 +25,20 @@ class Enemy(Thing, DrawnInOrder):
         self.shield_timer = 0
         self.shield_radius = 3
 
+    def move(self):
+        """
+        Controls the movement, reimplement per enemy type
+        """
+
+    def attack(self):
+        """
+        Controls attacking, reimplement per enemy type
+        """
+
     def update(self):
+        self.move()
+        self.attack()
+
         self.apply_image_rect_effects()
 
         if self.collide_depth(director.scene.player.apparent_depth):

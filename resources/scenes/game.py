@@ -1,5 +1,5 @@
-from mothic import Scene, Surface, colors, director, etypes, draw, keys, flags
-from mothic.visuals import text
+from mothic import Scene, keys
+from mothic.media import audio
 from pygame import SRCALPHA
 
 from scripts.draw_order import get_order, reorder
@@ -12,6 +12,8 @@ class GameScene(Scene):
         self.cake.insert(
             self.player
         )
+
+        self.audio_manager.add_sound("player_damaged", "player_damaged.wav")
 
         self.level_tint = Surface((1920, 1080), SRCALPHA)
         self.level_tint.fill((0, 0, 255, 25))
@@ -26,25 +28,18 @@ class GameScene(Scene):
         self.enemy_manager = director.create_thing("EnemyManager")
 
         self.enemy_manager.spawn("Patrol", (1700, 240), 1, 0)
-        self.enemy_manager.spawn("Patrol", (1400, 640), 0, 0)
-        self.enemy_manager.spawn("Patrol", (1600, 340), 2, 0)
-        self.enemy_manager.spawn("Patrol", (1500, 440), 3, 0)
-        self.enemy_manager.spawn("Patrol", (1100, 540), 4, 0)
-        # self.enemy_manager.spawn("Patrol", (1700, 540), 0, 20)
-        # self.enemy_manager.spawn("Patrol", (1700, 540), 0, 40)
-        # self.enemy_manager.spawn("Patrol", (1700, 540), 0, 60)
-        # self.enemy_manager.spawn("Patrol", (1700, 540), 0, 80)
-        # self.enemy_manager.spawn("Patrol", (1700, 540), 0, 100)
-        # self.enemy_manager.spawn("Patrol", (1700, 540), 0, 120)
-        # self.enemy_manager.spawn("Patrol", (1700, 540), 0, 140)
-        # self.enemy_manager.spawn("Satellite", (0, 640))
+        # self.enemy_manager.spawn("Patrol", (1400, 640), 0, 0)
+        # self.enemy_manager.spawn("Patrol", (1600, 340), 2, 0)
+        # self.enemy_manager.spawn("Patrol", (1500, 440), 3, 0)
+        # self.enemy_manager.spawn("Patrol", (1100, 540), 4, 0)
+        self.enemy_manager.spawn("Satellite", (1700, 440), 1)
         # self.enemy_manager.spawn("Longshot", (0, 440))
         # self.enemy_manager.spawn("Kamikaze", (0, 540))
 
-        self.powerupManager.spawn(SHIELD, (500, 340), 1)
-        self.powerupManager.spawn(TRIPLE_SHOT, (500, 440), 1)
-        self.powerupManager.spawn(GATLING_GUN, (500, 540), 1)
-        self.powerupManager.spawn(HOLLOW_POINT, (500, 640), 1)
+        # self.powerupManager.spawn(SHIELD, (500, 340), 1)
+        # self.powerupManager.spawn(TRIPLE_SHOT, (500, 440), 1)
+        # self.powerupManager.spawn(GATLING_GUN, (500, 540), 1)
+        # self.powerupManager.spawn(HOLLOW_POINT, (500, 640), 1)
 
     def handle_events(self, events):
         self.cake.handle_events(events)

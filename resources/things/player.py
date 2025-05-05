@@ -7,7 +7,7 @@ import numpy as np
 class Player(Thing, DrawnInOrder):
     def __init__(self):
         Thing.__init__(self,
-            rect=Rect(250, 250, 50, 50),
+            rect=Rect(0, 0, 50, 50),
             default_render_layer=10
         )
         DrawnInOrder.__init__(self, 1)
@@ -19,7 +19,8 @@ class Player(Thing, DrawnInOrder):
         self.base_image = image.load_image("player")
         self.rect.size = self.base_image.get_rect().size
         self.hitbox = Rect(self.rect.left + 70, self.rect.top + 27, 99, 39)
-        #self.test_image()
+        self.pos = 250, 250
+        self.rect.center = self.pos
 
         self.firing_cooldown = 10
 
@@ -96,14 +97,15 @@ class Player(Thing, DrawnInOrder):
             return
 
         if pressed[keys.K_w]:
-            self.rect.top -= 10
+            self.pos = self.pos[0], self.pos[1] - 10
         if pressed[keys.K_s]:
-            self.rect.top += 10
+            self.pos = self.pos[0], self.pos[1] + 10
         if pressed[keys.K_a]:
-            self.rect.left -= 10
+            self.pos = self.pos[0] - 10, self.pos[1]
         if pressed[keys.K_d]:
-            self.rect.left += 10
+            self.pos = self.pos[0] + 10, self.pos[1]
 
+        self.rect.center = self.pos
         self.hitbox.topleft = (self.rect.left + 70, self.rect.top + 27)
 
         if pressed[keys.K_r]:

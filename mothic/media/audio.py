@@ -12,11 +12,11 @@ class AudioManager:
         self.sounds = {}
         self.__play_queue = []
 
-    def add_sound(self, name: str, path: str):
+    def add_sound(self, name: str, filename: str):
         """
-        Store a sound under a given name, given the .mp3 file's path
+        Store a sound under a given name, loaded from the given filename
         """
-        self.sounds[name] = mixer.Sound(path)
+        self.sounds[name] = mixer.Sound(f"resources/sounds/{filename}")
 
     def play_sound(self, name: str):
         """

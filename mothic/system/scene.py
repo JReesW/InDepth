@@ -1,6 +1,7 @@
 import pygame
 
 from mothic.dsa.cake import Cake
+from mothic.media.audio import AudioManager
 
 
 class Camera:
@@ -84,6 +85,7 @@ class Scene:
                  **kwargs):
         self.camera = Camera((0, 0), (0, 0))
         self.cake = Cake()
+        self.audio_manager = AudioManager()
 
     def init(self, *args, **kwargs):
         """
@@ -107,6 +109,7 @@ class Scene:
         Base version of update, not meant to be reimplemented
         """
         self.update()
+        self.audio_manager.execute()
 
     def __render(self, surface):
         """
